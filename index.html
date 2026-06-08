@@ -9,68 +9,86 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg: #F8F7F4;
-    --surface: #FFFFFF;
-    --surface2: #F1EFE8;
-    --border: rgba(0,0,0,0.1);
-    --border-hover: rgba(0,0,0,0.2);
-    --text: #1a1a18;
-    --text-muted: #6b6b67;
-    --text-hint: #9b9b97;
-    --radius-md: 8px;
-    --radius-lg: 14px;
-    --radius-xl: 20px;
+    --bg: #F8F7F4; --surface: #FFFFFF; --surface2: #F1EFE8;
+    --border: rgba(0,0,0,0.1); --border-hover: rgba(0,0,0,0.2);
+    --text: #1a1a18; --text-muted: #6b6b67; --text-hint: #9b9b97;
+    --radius-md: 8px; --radius-lg: 14px; --radius-xl: 20px;
     --shadow: 0 1px 3px rgba(0,0,0,0.06);
   }
-
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #141413;
-      --surface: #1e1e1c;
-      --surface2: #2a2a28;
-      --border: rgba(255,255,255,0.1);
-      --border-hover: rgba(255,255,255,0.2);
-      --text: #f0efe8;
-      --text-muted: #9b9b97;
-      --text-hint: #6b6b67;
+      --bg: #141413; --surface: #1e1e1c; --surface2: #2a2a28;
+      --border: rgba(255,255,255,0.1); --border-hover: rgba(255,255,255,0.2);
+      --text: #f0efe8; --text-muted: #9b9b97; --text-hint: #6b6b67;
       --shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
   }
-
   body { font-family: 'Manrope', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
   .container { max-width: 860px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 
+  /* Setup screen */
+  .setup-screen {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem;
+  }
+  .setup-card {
+    background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-xl);
+    padding: 2rem; width: min(480px, 100%); box-shadow: var(--shadow);
+  }
+  .setup-icon { width: 48px; height: 48px; background: #EAF3DE; border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; font-size: 22px; color: #1D9E75; margin-bottom: 1.25rem; }
+  .setup-title { font-size: 20px; font-weight: 600; margin-bottom: 6px; }
+  .setup-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 1.75rem; line-height: 1.6; }
+  .setup-steps { background: var(--surface2); border-radius: var(--radius-lg); padding: 1rem 1.25rem; margin-bottom: 1.5rem; display: flex; flex-direction: column; gap: 8px; }
+  .setup-step { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+  .setup-step-num { min-width: 20px; height: 20px; background: var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-top: 1px; }
+  .setup-step a { color: #378ADD; text-decoration: none; }
+  .setup-step a:hover { text-decoration: underline; }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
+  .field input {
+    width: 100%; padding: 10px 12px; border: 0.5px solid var(--border);
+    border-radius: var(--radius-md); background: var(--surface2);
+    color: var(--text); font-family: inherit; font-size: 14px; outline: none;
+    transition: border-color 0.15s;
+  }
+  .field input:focus { border-color: var(--border-hover); }
+  .field input.mono { font-family: monospace; font-size: 13px; letter-spacing: 0.02em; }
+  .setup-hint { font-size: 12px; color: var(--text-hint); margin-top: 5px; }
+  .err-msg { font-size: 13px; color: #D85A30; background: #FAECE7; border-radius: var(--radius-md); padding: 8px 12px; margin-bottom: 1rem; display: none; }
+
+  /* Buttons */
+  .btn-primary {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    background: var(--text); color: var(--bg); border: none; border-radius: var(--radius-md);
+    padding: 10px 18px; font-size: 14px; font-weight: 500; cursor: pointer;
+    font-family: inherit; transition: opacity 0.15s; width: 100%;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-ghost { padding: 8px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: transparent; color: var(--text-muted); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-ghost:hover { background: var(--surface2); }
+  .btn-sm { font-size: 12px; font-weight: 500; font-family: inherit; padding: 5px 11px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
+  .btn-sm:hover { background: var(--surface2); color: var(--text); border-color: var(--border-hover); }
+  .btn-del { background: none; border: none; cursor: pointer; color: var(--text-hint); font-size: 16px; padding: 4px; border-radius: var(--radius-md); transition: all 0.15s; line-height: 1; }
+  .btn-del:hover { background: var(--surface2); color: var(--text-muted); }
+
+  /* Main app */
+  .app { display: none; }
   .app-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 2rem; gap: 1rem; }
   .app-title { font-size: 24px; font-weight: 600; letter-spacing: -0.5px; }
   .app-date { font-size: 13px; color: var(--text-muted); margin-top: 3px; }
+  .header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 
-  .header-right { display: flex; align-items: center; gap: 8px; }
-
-  .sync-status {
-    font-size: 12px; color: var(--text-hint);
-    display: flex; align-items: center; gap: 5px;
-    padding: 6px 10px; border-radius: var(--radius-md);
-    border: 0.5px solid var(--border);
-    background: var(--surface);
-    white-space: nowrap;
-  }
+  .sync-status { font-size: 12px; color: var(--text-hint); display: flex; align-items: center; gap: 5px; padding: 6px 10px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: var(--surface); white-space: nowrap; }
   .sync-status.syncing { color: #378ADD; border-color: #B5D4F4; }
   .sync-status.ok { color: #1D9E75; border-color: #9FE1CB; }
   .sync-status.err { color: #D85A30; border-color: #F0997B; }
-  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
-  .sync-dot.spin { animation: spin 1s linear infinite; }
+  .sync-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
   @keyframes spin { to { transform: rotate(360deg); } }
+  .spin { animation: spin 1s linear infinite; }
 
-  .btn-primary {
-    display: flex; align-items: center; gap: 6px;
-    background: var(--text); color: var(--bg);
-    border: none; border-radius: var(--radius-md);
-    padding: 9px 16px; font-size: 14px; font-weight: 500;
-    cursor: pointer; font-family: inherit; transition: opacity 0.15s; white-space: nowrap;
-  }
-  .btn-primary:hover { opacity: 0.85; }
+  .btn-add { display: flex; align-items: center; gap: 6px; background: var(--text); color: var(--bg); border: none; border-radius: var(--radius-md); padding: 9px 16px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; transition: opacity 0.15s; white-space: nowrap; }
+  .btn-add:hover { opacity: 0.85; }
 
   .stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 1.5rem; }
   .stat-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 0.85rem 1rem; box-shadow: var(--shadow); }
@@ -83,64 +101,57 @@
   .tab:hover:not(.active) { border-color: var(--border-hover); color: var(--text); }
 
   .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-
-  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; transition: box-shadow 0.15s, border-color 0.15s; box-shadow: var(--shadow); }
+  .card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 1.1rem 1.25rem; box-shadow: var(--shadow); transition: border-color 0.15s; }
   .card:hover { border-color: var(--border-hover); }
-
   .card-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 14px; }
   .card-icon { width: 38px; height: 38px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 19px; }
-  .btn-del { background: none; border: none; cursor: pointer; color: var(--text-hint); font-size: 16px; padding: 4px; border-radius: var(--radius-md); transition: all 0.15s; line-height: 1; }
-  .btn-del:hover { background: var(--surface2); color: var(--text-muted); }
-
   .card-name { font-size: 15px; font-weight: 600; margin-bottom: 2px; }
   .card-cat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
-
   .bar-meta { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 7px; }
   .bar-nums { font-size: 12px; color: var(--text-muted); }
   .bar-pct { font-size: 13px; font-weight: 600; }
-
   .bar-track { width: 100%; height: 7px; background: var(--surface2); border-radius: 99px; overflow: hidden; margin-bottom: 14px; }
   .bar-fill { height: 100%; border-radius: 99px; transition: width 0.5s ease; }
-
   .card-footer { display: flex; align-items: center; justify-content: space-between; }
   .streak { font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
   .streak strong { color: var(--text); }
-
-  .btn-log { font-size: 12px; font-weight: 500; font-family: inherit; padding: 5px 11px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: transparent; color: var(--text-muted); cursor: pointer; transition: all 0.15s; }
-  .btn-log:hover { background: var(--surface2); color: var(--text); border-color: var(--border-hover); }
 
   .add-card { border: 0.5px dashed var(--border); border-radius: var(--radius-lg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; cursor: pointer; min-height: 170px; color: var(--text-hint); background: transparent; font-family: inherit; font-size: 13px; font-weight: 500; transition: all 0.15s; }
   .add-card i { font-size: 26px; }
   .add-card:hover { border-color: var(--border-hover); color: var(--text-muted); background: var(--surface2); }
 
+  .badge-done { display: inline-flex; align-items: center; gap: 4px; background: #EAF3DE; color: #3B6D11; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px; margin-left: 8px; }
+  @media (prefers-color-scheme: dark) { .badge-done { background: #27500A; color: #C0DD97; } }
+
+  /* Modals */
   .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 1rem; backdrop-filter: blur(2px); }
   .overlay.hidden { display: none; }
-
   .modal { background: var(--surface); border-radius: var(--radius-xl); padding: 1.75rem; width: min(440px, 100%); border: 0.5px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
   .modal h2 { font-size: 17px; font-weight: 600; margin-bottom: 1.25rem; }
-
-  .field { margin-bottom: 1rem; }
-  .field label { display: block; font-size: 13px; color: var(--text-muted); margin-bottom: 6px; font-weight: 500; }
-  .field input, .field select { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border); border-radius: var(--radius-md); background: var(--surface2); color: var(--text); font-family: inherit; font-size: 14px; outline: none; transition: border-color 0.15s; }
-  .field input:focus, .field select:focus { border-color: var(--border-hover); }
-  .field select option { background: var(--surface); }
-
+  .field select { width: 100%; padding: 9px 12px; border: 0.5px solid var(--border); border-radius: var(--radius-md); background: var(--surface2); color: var(--text); font-family: inherit; font-size: 14px; outline: none; }
   .modal-btns { display: flex; gap: 8px; justify-content: flex-end; margin-top: 1.5rem; }
-  .btn-ghost { padding: 8px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: transparent; color: var(--text-muted); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
-  .btn-ghost:hover { background: var(--surface2); }
+  .btn-ghost-sm { padding: 8px 16px; border-radius: var(--radius-md); border: 0.5px solid var(--border); background: transparent; color: var(--text-muted); font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; }
+  .btn-ghost-sm:hover { background: var(--surface2); }
+  .btn-save { display: flex; align-items: center; gap: 6px; background: var(--text); color: var(--bg); border: none; border-radius: var(--radius-md); padding: 8px 18px; font-size: 14px; font-weight: 500; cursor: pointer; font-family: inherit; }
+  .btn-save:hover { opacity: 0.85; }
 
   .log-modal { background: var(--surface); border-radius: var(--radius-xl); padding: 1.75rem; width: min(380px, 100%); border: 0.5px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
   .log-modal h2 { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
   .log-modal p { font-size: 13px; color: var(--text-muted); margin-bottom: 1.5rem; }
-
   .range-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
   .range-wrap input[type=range] { flex: 1; -webkit-appearance: none; appearance: none; height: 6px; border-radius: 99px; background: var(--surface2); outline: none; cursor: pointer; }
   .range-wrap input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--text); cursor: pointer; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
   .range-val { font-size: 16px; font-weight: 600; min-width: 40px; text-align: right; }
 
-  .badge-done { display: inline-flex; align-items: center; gap: 4px; background: #EAF3DE; color: #3B6D11; font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 99px; margin-left: 8px; }
-  @media (prefers-color-scheme: dark) { .badge-done { background: #27500A; color: #C0DD97; } }
+  /* Settings modal */
+  .settings-modal { background: var(--surface); border-radius: var(--radius-xl); padding: 1.75rem; width: min(440px, 100%); border: 0.5px solid var(--border); box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+  .settings-modal h2 { font-size: 17px; font-weight: 600; margin-bottom: 1.25rem; }
+  .danger-zone { margin-top: 1.5rem; padding-top: 1.25rem; border-top: 0.5px solid var(--border); }
+  .danger-label { font-size: 12px; color: var(--text-hint); margin-bottom: 8px; }
+  .btn-danger { font-size: 13px; padding: 7px 14px; border-radius: var(--radius-md); border: 0.5px solid #F0997B; background: transparent; color: #D85A30; font-family: inherit; cursor: pointer; transition: all 0.15s; }
+  .btn-danger:hover { background: #FAECE7; }
 
+  /* Loading */
   .loading-screen { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; z-index: 200; }
   .loading-screen.hidden { display: none; }
   .loading-spinner { width: 28px; height: 28px; border: 2.5px solid var(--border); border-top-color: var(--text); border-radius: 50%; animation: spin 0.7s linear infinite; }
@@ -155,38 +166,77 @@
 </head>
 <body>
 
+<!-- Loading -->
 <div class="loading-screen" id="loading">
   <div class="loading-spinner"></div>
   <div class="loading-text">Загружаю данные...</div>
 </div>
 
-<div class="container">
-  <div class="app-header">
-    <div>
-      <div class="app-title">Мой прогресс</div>
-      <div class="app-date" id="date-sub"></div>
-    </div>
-    <div class="header-right">
-      <div class="sync-status" id="sync-status">
-        <div class="sync-dot" id="sync-dot"></div>
-        <span id="sync-text">—</span>
+<!-- Setup screen (first launch) -->
+<div class="setup-screen" id="setup-screen" style="display:none;">
+  <div class="setup-card">
+    <div class="setup-icon"><i class="ti ti-rocket"></i></div>
+    <div class="setup-title">Добро пожаловать!</div>
+    <div class="setup-sub">Для синхронизации между устройствами нужен GitHub токен и Gist ID. Вводятся один раз и сохраняются в браузере.</div>
+
+    <div class="setup-steps">
+      <div class="setup-step">
+        <div class="setup-step-num">1</div>
+        <div>Создай токен на <a href="https://github.com/settings/tokens/new" target="_blank">github.com/settings/tokens/new</a> — галочка только на <strong>gist</strong>, срок — No expiration</div>
       </div>
-      <button class="btn-primary" id="btn-add-top">
-        <i class="ti ti-plus"></i> Добавить
-      </button>
+      <div class="setup-step">
+        <div class="setup-step-num">2</div>
+        <div>Создай Gist на <a href="https://gist.github.com" target="_blank">gist.github.com</a> — файл назови <strong>progress-data.json</strong>, содержимое <strong>[]</strong>, нажми Create secret gist</div>
+      </div>
+      <div class="setup-step">
+        <div class="setup-step-num">3</div>
+        <div>Скопируй ID из адресной строки: gist.github.com/юзер/<strong>вот_это</strong></div>
+      </div>
     </div>
+
+    <div class="err-msg" id="setup-err"></div>
+
+    <div class="field">
+      <label>GitHub токен</label>
+      <input type="password" id="setup-token" class="mono" placeholder="ghp_..." autocomplete="off" />
+      <div class="setup-hint">Хранится только в вашем браузере, не в коде</div>
+    </div>
+    <div class="field">
+      <label>Gist ID</label>
+      <input type="text" id="setup-gist" class="mono" placeholder="3f3c9f16062ec42e9152fb5cda6e092f" autocomplete="off" />
+    </div>
+    <button class="btn-primary" id="setup-save">
+      <span id="setup-btn-text">Подключить и начать</span>
+    </button>
   </div>
+</div>
 
-  <div class="stats-bar" id="stats-bar"></div>
-
-  <div class="tabs" id="tabs">
-    <button class="tab active" data-cat="all">Все</button>
-    <button class="tab" data-cat="skill">Навыки</button>
-    <button class="tab" data-cat="health">Здоровье</button>
-    <button class="tab" data-cat="habit">Привычки</button>
+<!-- Main app -->
+<div class="app" id="app">
+  <div class="container">
+    <div class="app-header">
+      <div>
+        <div class="app-title">Мой прогресс</div>
+        <div class="app-date" id="date-sub"></div>
+      </div>
+      <div class="header-right">
+        <div class="sync-status" id="sync-status">
+          <div class="sync-dot" id="sync-dot"></div>
+          <span id="sync-text">—</span>
+        </div>
+        <button class="btn-sm" id="btn-settings" title="Настройки"><i class="ti ti-settings"></i></button>
+        <button class="btn-add" id="btn-add-top"><i class="ti ti-plus"></i> Добавить</button>
+      </div>
+    </div>
+    <div class="stats-bar" id="stats-bar"></div>
+    <div class="tabs" id="tabs">
+      <button class="tab active" data-cat="all">Все</button>
+      <button class="tab" data-cat="skill">Навыки</button>
+      <button class="tab" data-cat="health">Здоровье</button>
+      <button class="tab" data-cat="habit">Привычки</button>
+    </div>
+    <div class="cards" id="cards-grid"></div>
   </div>
-
-  <div class="cards" id="cards-grid"></div>
 </div>
 
 <!-- Add modal -->
@@ -198,8 +248,8 @@
     <div class="field"><label>Единица измерения</label><input type="text" id="new-unit" placeholder="км, часов, страниц..." /></div>
     <div class="field"><label>Цель (число)</label><input type="number" id="new-goal" placeholder="100" min="1" /></div>
     <div class="modal-btns">
-      <button class="btn-ghost" id="add-cancel">Отмена</button>
-      <button class="btn-primary" id="add-save">Сохранить</button>
+      <button class="btn-ghost-sm" id="add-cancel">Отмена</button>
+      <button class="btn-save" id="add-save">Сохранить</button>
     </div>
   </div>
 </div>
@@ -214,25 +264,42 @@
       <span class="range-val" id="log-range-val">0</span>
     </div>
     <div class="modal-btns">
-      <button class="btn-ghost" id="log-cancel">Отмена</button>
-      <button class="btn-primary" id="log-save">Записать</button>
+      <button class="btn-ghost-sm" id="log-cancel">Отмена</button>
+      <button class="btn-save" id="log-save">Записать</button>
+    </div>
+  </div>
+</div>
+
+<!-- Settings modal -->
+<div class="overlay hidden" id="settings-overlay">
+  <div class="settings-modal">
+    <h2>Настройки</h2>
+    <div class="field">
+      <label>GitHub токен</label>
+      <input type="password" id="cfg-token" class="mono" placeholder="ghp_..." autocomplete="off" />
+    </div>
+    <div class="field">
+      <label>Gist ID</label>
+      <input type="text" id="cfg-gist" class="mono" />
+    </div>
+    <div class="modal-btns">
+      <button class="btn-ghost-sm" id="settings-cancel">Отмена</button>
+      <button class="btn-save" id="settings-save">Сохранить</button>
+    </div>
+    <div class="danger-zone">
+      <div class="danger-label">Опасная зона</div>
+      <button class="btn-danger" id="btn-reset">Сбросить настройки и выйти</button>
     </div>
   </div>
 </div>
 
 <script>
-// ─── НАСТРОЙКИ ───────────────────────────────────────────────
-const GIST_TOKEN   = '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'; // ← замени на новый токен
-const GIST_ID      = '3f3c9f16062ec42e9152fb5cda6e092f';
-const GIST_FILE    = 'progress-data.json';
-// ─────────────────────────────────────────────────────────────
-
+const GIST_FILE = 'progress-data.json';
 const CAT_META = {
   skill:  { icon: 'ti-bulb',   bg: '#B5D4F4', fg: '#0C447C', label: 'Навык'    },
   health: { icon: 'ti-heart',  bg: '#9FE1CB', fg: '#085041', label: 'Здоровье' },
   habit:  { icon: 'ti-repeat', bg: '#EEEDFE', fg: '#3C3489', label: 'Привычка' }
 };
-
 const DEFAULTS = [
   { id: 1, name: 'Python',     cat: 'skill',  unit: 'часов',   goal: 100, current: 42,  streak: 7  },
   { id: 2, name: 'Бег',        cat: 'health', unit: 'км',      goal: 50,  current: 23,  streak: 3  },
@@ -241,38 +308,46 @@ const DEFAULTS = [
   { id: 5, name: 'Сон 8ч+',   cat: 'health', unit: 'ночей',   goal: 30,  current: 14,  streak: 2  }
 ];
 
-let items   = [];
-let nextId  = 1;
-let cat     = 'all';
-let logItem = null;
+let items = []; let nextId = 1; let cat = 'all'; let logItem = null;
 
-// ─── GIST SYNC ───────────────────────────────────────────────
+function getCreds() {
+  return { token: localStorage.getItem('gh_token'), gistId: localStorage.getItem('gh_gist_id') };
+}
+function saveCreds(token, gistId) {
+  localStorage.setItem('gh_token', token);
+  localStorage.setItem('gh_gist_id', gistId);
+}
+function clearCreds() {
+  localStorage.removeItem('gh_token');
+  localStorage.removeItem('gh_gist_id');
+  localStorage.removeItem('progress_backup');
+}
 
+// ─── SYNC ─────────────────────────────────────────────────────
 function setSyncStatus(state, text) {
-  const el  = document.getElementById('sync-status');
+  const el = document.getElementById('sync-status');
   const dot = document.getElementById('sync-dot');
-  const txt = document.getElementById('sync-text');
-  el.className  = 'sync-status ' + state;
+  el.className = 'sync-status ' + state;
   dot.className = 'sync-dot' + (state === 'syncing' ? ' spin' : '');
-  txt.textContent = text;
+  document.getElementById('sync-text').textContent = text;
 }
 
 async function gistLoad() {
+  const { token, gistId } = getCreds();
   setSyncStatus('syncing', 'Загрузка...');
   try {
-    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      headers: { Authorization: `token ${GIST_TOKEN}`, Accept: 'application/vnd.github.v3+json' }
+    const r = await fetch(`https://api.github.com/gists/${gistId}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
     });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const data = await r.json();
-    const raw  = data.files[GIST_FILE]?.content || '[]';
+    const raw = data.files[GIST_FILE]?.content || '[]';
     const parsed = JSON.parse(raw);
-    items  = parsed.length ? parsed : DEFAULTS;
+    items = parsed.length ? parsed : DEFAULTS;
     nextId = Math.max(...items.map(i => i.id), 0) + 1;
     setSyncStatus('ok', 'Синхронизировано');
   } catch(e) {
-    console.error(e);
-    items  = JSON.parse(localStorage.getItem('progress_backup') || 'null') || DEFAULTS;
+    items = JSON.parse(localStorage.getItem('progress_backup') || 'null') || DEFAULTS;
     nextId = Math.max(...items.map(i => i.id), 0) + 1;
     setSyncStatus('err', 'Офлайн-режим');
   }
@@ -281,125 +356,131 @@ async function gistLoad() {
 }
 
 async function gistSave() {
+  const { token, gistId } = getCreds();
   setSyncStatus('syncing', 'Сохранение...');
   localStorage.setItem('progress_backup', JSON.stringify(items));
   try {
-    const r = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+    const r = await fetch(`https://api.github.com/gists/${gistId}`, {
       method: 'PATCH',
-      headers: {
-        Authorization: `token ${GIST_TOKEN}`,
-        Accept: 'application/vnd.github.v3+json',
-        'Content-Type': 'application/json'
-      },
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json', 'Content-Type': 'application/json' },
       body: JSON.stringify({ files: { [GIST_FILE]: { content: JSON.stringify(items, null, 2) } } })
     });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     setSyncStatus('ok', 'Сохранено ✓');
     setTimeout(() => setSyncStatus('ok', 'Синхронизировано'), 2000);
   } catch(e) {
-    console.error(e);
     setSyncStatus('err', 'Ошибка сохранения');
   }
 }
 
-// ─── RENDER ──────────────────────────────────────────────────
-
+// ─── RENDER ───────────────────────────────────────────────────
 function pct(c, g) { return Math.min(100, Math.round(c / g * 100)); }
 function barColor(p) { return p >= 80 ? '#1D9E75' : p >= 40 ? '#378ADD' : '#D4537E'; }
 
 function renderStats() {
-  const total  = items.length;
-  const done   = items.filter(i => i.current >= i.goal).length;
+  const total = items.length;
+  const done = items.filter(i => i.current >= i.goal).length;
   const avgPct = total ? Math.round(items.reduce((s,i) => s + pct(i.current,i.goal), 0) / total) : 0;
   const topStr = total ? Math.max(...items.map(i => i.streak)) : 0;
   document.getElementById('stats-bar').innerHTML = `
     <div class="stat-card"><div class="stat-label">Показателей</div><div class="stat-val">${total}</div></div>
     <div class="stat-card"><div class="stat-label">Завершено</div><div class="stat-val">${done}</div></div>
     <div class="stat-card"><div class="stat-label">Средний %</div><div class="stat-val">${avgPct}%</div></div>
-    <div class="stat-card"><div class="stat-label">Лучший стрик</div><div class="stat-val">${topStr} дн.</div></div>
-  `;
+    <div class="stat-card"><div class="stat-label">Лучший стрик</div><div class="stat-val">${topStr} дн.</div></div>`;
 }
 
 function renderCards() {
-  const grid     = document.getElementById('cards-grid');
+  const grid = document.getElementById('cards-grid');
   const filtered = cat === 'all' ? items : items.filter(i => i.cat === cat);
   let html = '';
   filtered.forEach(item => {
-    const m    = CAT_META[item.cat];
-    const p    = pct(item.current, item.goal);
-    const done = item.current >= item.goal;
-    html += `
-    <div class="card">
+    const m = CAT_META[item.cat]; const p = pct(item.current, item.goal);
+    html += `<div class="card">
       <div class="card-top">
         <div class="card-icon" style="background:${m.bg}"><i class="ti ${m.icon}" style="color:${m.fg}"></i></div>
-        <button class="btn-del" data-del="${item.id}" title="Удалить"><i class="ti ti-trash"></i></button>
+        <button class="btn-del" data-del="${item.id}"><i class="ti ti-trash"></i></button>
       </div>
-      <div class="card-name">${item.name}${done ? '<span class="badge-done"><i class="ti ti-check" style="font-size:10px"></i> Готово</span>' : ''}</div>
+      <div class="card-name">${item.name}${item.current >= item.goal ? '<span class="badge-done"><i class="ti ti-check" style="font-size:10px"></i> Готово</span>' : ''}</div>
       <div class="card-cat-label">${m.label}</div>
-      <div class="bar-meta">
-        <span class="bar-nums">${item.current} / ${item.goal} ${item.unit}</span>
-        <span class="bar-pct" style="color:${barColor(p)}">${p}%</span>
-      </div>
+      <div class="bar-meta"><span class="bar-nums">${item.current} / ${item.goal} ${item.unit}</span><span class="bar-pct" style="color:${barColor(p)}">${p}%</span></div>
       <div class="bar-track"><div class="bar-fill" style="width:${p}%;background:${barColor(p)}"></div></div>
       <div class="card-footer">
         <span class="streak"><i class="ti ti-flame" style="font-size:14px"></i> <strong>${item.streak}</strong> дн.</span>
-        <button class="btn-log" data-log="${item.id}">+ Записать</button>
+        <button class="btn-sm" data-log="${item.id}">+ Записать</button>
       </div>
     </div>`;
   });
   html += `<button class="add-card" id="btn-add-card"><i class="ti ti-plus"></i><span>Добавить показатель</span></button>`;
   grid.innerHTML = html;
-
-  grid.querySelectorAll('[data-del]').forEach(b =>
-    b.addEventListener('click', async () => {
-      items = items.filter(i => i.id !== +b.dataset.del);
-      render(); await gistSave();
-    })
-  );
-  grid.querySelectorAll('[data-log]').forEach(b =>
-    b.addEventListener('click', () => openLog(+b.dataset.log))
-  );
+  grid.querySelectorAll('[data-del]').forEach(b => b.addEventListener('click', async () => { items = items.filter(i => i.id !== +b.dataset.del); render(); await gistSave(); }));
+  grid.querySelectorAll('[data-log]').forEach(b => b.addEventListener('click', () => openLog(+b.dataset.log)));
   document.getElementById('btn-add-card').addEventListener('click', openAdd);
 }
 
 function render() { renderStats(); renderCards(); }
 
-// ─── ADD MODAL ───────────────────────────────────────────────
+// ─── SETUP SCREEN ─────────────────────────────────────────────
+async function validateAndSave(token, gistId, errEl, btnText) {
+  errEl.style.display = 'none';
+  btnText.textContent = 'Проверяю...';
+  try {
+    const r = await fetch(`https://api.github.com/gists/${gistId}`, {
+      headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' }
+    });
+    if (r.status === 401) throw new Error('Токен неверный или нет доступа к Gist');
+    if (r.status === 404) throw new Error('Gist не найден. Проверь ID');
+    if (!r.ok) throw new Error('Ошибка ' + r.status);
+    return true;
+  } catch(e) {
+    errEl.textContent = e.message;
+    errEl.style.display = 'block';
+    btnText.textContent = 'Подключить и начать';
+    return false;
+  }
+}
 
+document.getElementById('setup-save').addEventListener('click', async () => {
+  const token = document.getElementById('setup-token').value.trim();
+  const gistId = document.getElementById('setup-gist').value.trim();
+  const errEl = document.getElementById('setup-err');
+  const btnText = document.getElementById('setup-btn-text');
+  if (!token || !gistId) { errEl.textContent = 'Заполни оба поля'; errEl.style.display = 'block'; return; }
+  const ok = await validateAndSave(token, gistId, errEl, btnText);
+  if (!ok) return;
+  saveCreds(token, gistId);
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('loading').style.display = 'flex';
+  await gistLoad();
+});
+
+// ─── ADD MODAL ────────────────────────────────────────────────
 function openAdd() { document.getElementById('add-overlay').classList.remove('hidden'); document.getElementById('new-name').focus(); }
 function closeAdd() { document.getElementById('add-overlay').classList.add('hidden'); }
-
 document.getElementById('add-cancel').addEventListener('click', closeAdd);
 document.getElementById('add-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeAdd(); });
-
 document.getElementById('add-save').addEventListener('click', async () => {
   const name = document.getElementById('new-name').value.trim();
-  const goal = parseInt(document.getElementById('new-goal').value) || 100;
   if (!name) return;
-  items.push({ id: nextId++, name, cat: document.getElementById('new-cat').value, unit: document.getElementById('new-unit').value.trim() || 'ед.', goal, current: 0, streak: 0 });
+  items.push({ id: nextId++, name, cat: document.getElementById('new-cat').value, unit: document.getElementById('new-unit').value.trim() || 'ед.', goal: parseInt(document.getElementById('new-goal').value) || 100, current: 0, streak: 0 });
   ['new-name','new-unit','new-goal'].forEach(id => document.getElementById(id).value = '');
   closeAdd(); render(); await gistSave();
 });
 
-// ─── LOG MODAL ───────────────────────────────────────────────
-
+// ─── LOG MODAL ────────────────────────────────────────────────
 function openLog(id) {
-  logItem = items.find(i => i.id === id);
-  if (!logItem) return;
+  logItem = items.find(i => i.id === id); if (!logItem) return;
   document.getElementById('log-title').textContent = logItem.name;
-  document.getElementById('log-desc').textContent  = `Прогресс: ${logItem.current} из ${logItem.goal} ${logItem.unit}`;
+  document.getElementById('log-desc').textContent = `Прогресс: ${logItem.current} из ${logItem.goal} ${logItem.unit}`;
   const r = document.getElementById('log-range');
   r.max = logItem.goal; r.value = logItem.current;
   document.getElementById('log-range-val').textContent = logItem.current;
   document.getElementById('log-overlay').classList.remove('hidden');
 }
 function closeLog() { document.getElementById('log-overlay').classList.add('hidden'); logItem = null; }
-
 document.getElementById('log-cancel').addEventListener('click', closeLog);
 document.getElementById('log-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeLog(); });
-document.getElementById('log-range').addEventListener('input', e => {
-  document.getElementById('log-range-val').textContent = e.target.value;
-});
+document.getElementById('log-range').addEventListener('input', e => { document.getElementById('log-range-val').textContent = e.target.value; });
 document.getElementById('log-save').addEventListener('click', async () => {
   if (!logItem) return;
   const val = parseInt(document.getElementById('log-range').value);
@@ -408,24 +489,51 @@ document.getElementById('log-save').addEventListener('click', async () => {
   closeLog(); render(); await gistSave();
 });
 
-// ─── TABS ────────────────────────────────────────────────────
-
-document.getElementById('tabs').addEventListener('click', e => {
-  const tab = e.target.closest('[data-cat]');
-  if (!tab) return;
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  tab.classList.add('active');
-  cat = tab.dataset.cat;
-  renderCards();
+// ─── SETTINGS MODAL ───────────────────────────────────────────
+function openSettings() {
+  const { token, gistId } = getCreds();
+  document.getElementById('cfg-token').value = token || '';
+  document.getElementById('cfg-gist').value = gistId || '';
+  document.getElementById('settings-overlay').classList.remove('hidden');
+}
+function closeSettings() { document.getElementById('settings-overlay').classList.add('hidden'); }
+document.getElementById('btn-settings').addEventListener('click', openSettings);
+document.getElementById('settings-cancel').addEventListener('click', closeSettings);
+document.getElementById('settings-overlay').addEventListener('click', e => { if (e.target === e.currentTarget) closeSettings(); });
+document.getElementById('settings-save').addEventListener('click', () => {
+  const token = document.getElementById('cfg-token').value.trim();
+  const gistId = document.getElementById('cfg-gist').value.trim();
+  if (!token || !gistId) return;
+  saveCreds(token, gistId);
+  closeSettings();
+  gistLoad();
+});
+document.getElementById('btn-reset').addEventListener('click', () => {
+  if (confirm('Сбросить настройки? Данные в Gist останутся нетронутыми.')) {
+    clearCreds();
+    location.reload();
+  }
 });
 
+// ─── TABS ─────────────────────────────────────────────────────
+document.getElementById('tabs').addEventListener('click', e => {
+  const tab = e.target.closest('[data-cat]'); if (!tab) return;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  tab.classList.add('active'); cat = tab.dataset.cat; renderCards();
+});
 document.getElementById('btn-add-top').addEventListener('click', openAdd);
 
-// ─── INIT ────────────────────────────────────────────────────
-
+// ─── INIT ─────────────────────────────────────────────────────
 document.getElementById('date-sub').textContent = new Date().toLocaleDateString('ru-RU', { weekday: 'long', day: 'numeric', month: 'long' });
 
-gistLoad();
+const { token, gistId } = getCreds();
+if (token && gistId) {
+  document.getElementById('app').style.display = 'block';
+  gistLoad();
+} else {
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('setup-screen').style.display = 'flex';
+}
 </script>
 </body>
 </html>
